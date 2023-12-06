@@ -1,0 +1,27 @@
+#!/usr/local/bin/ python3
+
+import numpy as np
+
+import math
+
+#def unit_vector(v):
+
+#    return v / np.linalg.norm(v)
+
+#u = np.array([3, 6, 4])
+
+#print(unit_vector(u))
+
+def angle_between(v1, v2):
+
+    dot_pr = v1.dot(v2)
+
+    norms = np.linalg.norm(v1) * np.linalg.norm(v2)
+
+    return np.rad2deg(np.arccos(dot_pr / norms))
+
+v = np.array([1, 4, 5])
+
+u = np.array([2, 1, 5])
+
+print(angle_between(v, u))
