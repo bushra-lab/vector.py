@@ -1,0 +1,40 @@
+# fn   : file name for initial structure.
+# ran  : random numbers
+# r    : displacement magnitude 0.03 A
+
+
+import sys
+import numpy as np
+import numpy
+
+fn = sys.argv[1]
+# Generate random numbers  uniformly distributed in
+# the half open interval [-1,1). (30,3) corresponds
+# to 30 atoms with 3 degrees of freedom for each atom
+
+ran = numpy.random.random_sample((30,3))
+ran = (ran-0.5e0)*2e0
+
+
+r = 0.03
+rf = [0e0, 0e0,0e0]
+dic = {'a': 0, 'b': 1, 'c': 2}
+ind = 0
+# read original cif file and add random displacement
+with open(fn,'r') as f, open('rand.cif','w') as f1:
+    for line in f:
+        line1 = line.split()
+        if len(line1) != 8:
+            if len(line1) != 3:
+                f1.write(line)
+            elif len(line1) == 3 and line1[0] != "_space_group_name_H-M_alt":
+                f1.write(line)
+            elif len(line1) == 3 and line1[0] == "_space_group_name_H-M_alt":
+                f1.write("_symmetry_space_group_name_H-M              'P 1'\n")
+            if len(line1) == 2 and line1[0][:13] == '_cell_length_':
+                rf[dic[line1[0][13]]] = r/float(line1[1])
+
+        if len(line1) == 8:
+            pos = np.array([float(line1[2])+rf[0]*ran[ind][0],float(line1[3])+rf[1]*ran[ind][1],float(line1[4])+rf[2]*ran[ind][2]])
+            f1.write("{0:17s}      {1:9.6f}      {2:9.6f}      {3:9.6f}       {4:21s}".format(line[:17],pos[0],pos[1],pos[2],line[58:]))
+            ind += 1
