@@ -113,7 +113,6 @@ plt.savefig('DOS.png',dpi=300)
 plt.savefig('DOS.svg')
 
 ###########################################
-# Alternatively show the plot in a window #
+# Alternatively, show the plot in a window #
 ###########################################
 plt.show()
-
